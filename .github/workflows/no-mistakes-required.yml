@@ -1,0 +1,16 @@
+name: Require no-mistakes
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: no-mistakes-required-${{ github.event.pull_request.number }}-${{ (github.event.action == 'opened' || github.event.action == 'edited') && github.run_id || 'head-change' }}
+  cancel-in-progress: true
+jobs:
+  check:
+    name: PR must be raised via no-mistakes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kunchenguid/no-mistakes/.github/actions/require-no-mistakes@0af0be6323bebd61edaf3a1a6170d82c5075e818

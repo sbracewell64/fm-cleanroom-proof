@@ -1,0 +1,11 @@
+# Deterministic commands so Lint and Test are shell, not agent judgement.
+# no-mistakes reads commands.* ONLY from the trusted default-branch copy of this
+# file unless allow_repo_commands is true on that same trusted copy. It is not
+# set here, so the secure default holds: a pushed branch controls nothing that
+# executes.
+commands:
+  lint: 'python3 -m compileall -q fmproof tests'
+  test: 'python3 -m unittest discover -s tests -t . -v'
+test:
+  evidence:
+    store_in_repo: false
